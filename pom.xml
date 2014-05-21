@@ -12,5 +12,6 @@
         <module>parent</module>
         <module>memtos-core</module>
         <module>memtos-server</module>
+        <module>memtos-client</module>
     </modules>
 </project>
