@@ -15,7 +15,6 @@
 
     <modules>
         <module>../memtos-core</module>
-        <module>../memtos-web</module>
     </modules>
 
 
