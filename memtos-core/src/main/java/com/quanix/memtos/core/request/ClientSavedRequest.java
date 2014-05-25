@@ -40,7 +40,29 @@ public class ClientSavedRequest extends SavedRequest {
         //return super.getRequestUrl();
         String requestURI = getRequestURI();
         if(backUrl != null) {
+            if(backUrl.toLowerCase().startsWith("http://")
+                    || backUrl.toLowerCase().startsWith("https://")) {
+                return backUrl;
+            } else if(!backUrl.startsWith(contextPath)) {
+                requestURI = contextPath + backUrl;
+            } else {
+                requestURI = backUrl;
+            }
+        }
 
+        StringBuilder requestUrl = new StringBuilder(scheme);//4
+        requestUrl.append("://");
+        requestUrl.append(domain);
+
+        if("http".equalsIgnoreCase(scheme) && port != 80) {
+            requestUrl.append(":").append(String.valueOf(port));
+        } else if("https".equalsIgnoreCase(scheme) && port != 443) {
+            requestUrl.append(":").append(String.valueOf(port));
+        }
+
+        requestUrl.append(requestURI);
+        if (backUrl == null && getQueryString() != null) {
+            requestUrl.append("?").append(getQueryString());
         }
         return requestURI.toString();
     }
@@ -49,5 +71,45 @@ public class ClientSavedRequest extends SavedRequest {
 
     public static String toTest() {
         return "ClientSavedRequest Tesing output";
+    }
+
+    public String getScheme() {
+        return scheme;
+    }
+
+    public void setScheme(String scheme) {
+        this.scheme = scheme;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public String getContextPath() {
+        return contextPath;
+    }
+
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
+    }
+
+    public String getBackUrl() {
+        return backUrl;
+    }
+
+    public void setBackUrl(String backUrl) {
+        this.backUrl = backUrl;
     }
 }
