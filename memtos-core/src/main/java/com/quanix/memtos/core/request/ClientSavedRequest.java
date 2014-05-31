@@ -50,7 +50,7 @@ public class ClientSavedRequest extends SavedRequest {
             }
         }
 
-        StringBuilder requestUrl = new StringBuilder(scheme);//4
+        StringBuilder requestUrl = new StringBuilder(scheme);
         requestUrl.append("://");
         requestUrl.append(domain);
 

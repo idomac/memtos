@@ -16,4 +16,14 @@ public class LoginController {
         System.out.println("控制器处理登录....");
         return "login";
     }
+
+
+    @RequestMapping(method = RequestMethod.POST)
+    public String loginSystem() {
+
+        System.out.println("提交登陆信息");
+
+        return "welcome";
+
+    }
 }

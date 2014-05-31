@@ -29,7 +29,7 @@
     <mvc:default-servlet-handler/>
 
     <!-- 默认调整 -->
-    <mvc:view-controller path="/" view-name="redirect:/login"/>
+    <mvc:view-controller path="/" view-name="redirect:/task"/>
 
     <!-- 默认的视图解析器 在上边的解析错误时使用 (默认使用html)- -->
     <bean id="defaultViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
