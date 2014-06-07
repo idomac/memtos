@@ -9,6 +9,8 @@ public class User implements Serializable {
 
     private Long id;
 
+    private Long organizationId; //所属公司
+
     private String username;
 
     private String password;
@@ -56,5 +58,13 @@ public class User implements Serializable {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public Long getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(Long organizationId) {
+        this.organizationId = organizationId;
     }
 }

@@ -1,21 +1,14 @@
 package com.quanix.memtos.server.dao;
 
 import com.quanix.memtos.server.entity.User;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
 /**
  * @author : lihaoquan
  */
-public interface UserDao {
+public interface UserDao extends CrudRepository<Long,User> {
 
-    public User createUser(User user);
-    public User updateUser(User user);
-    public void deleteUser(Long userId);
 
-    User findOne(Long userId);
-
-    List<User> findAll();
-
-    User findByUsername(String username);
 }

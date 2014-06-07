@@ -28,6 +28,11 @@
         <property name="targetDataSource" ref="dataSource"/>
     </bean>
 
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg ref="dataSourceProxy"/>
+    </bean>
+
+
     <!-- 配置JPA的数据事务管理工厂 -->
     <!-- Jpa Entity Manager 配置 -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -77,5 +82,8 @@
         <property name="password" value="${jdbc.password}" />
     </bean>
 
+
+
+    <bean class="com.quanix.memtos.server.util.SpringUtils" />
 
 </beans>
