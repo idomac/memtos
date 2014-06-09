@@ -1,15 +1,18 @@
 package com.quanix.memtos.server.entity;
 
-import java.io.Serializable;
+import com.quanix.memtos.server.entity.base.AbstractEntity;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * @author : lihaoquan
  */
-public class User implements Serializable {
+@Entity
+@Table(name="s_user")
+public class User extends AbstractEntity {
 
-    private Long id;
-
-    private Long organizationId; //所属公司
+    private String loginname;
 
     private String username;
 
@@ -17,23 +20,15 @@ public class User implements Serializable {
 
     private String salt;
 
-    public User() {
+    private String status;
 
+
+    public String getLoginname() {
+        return loginname;
     }
 
-    public User(String username,String password) {
-
-        this.username = username ;
-        this.password = password ;
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setLoginname(String loginname) {
+        this.loginname = loginname;
     }
 
     public String getUsername() {
@@ -60,11 +55,11 @@ public class User implements Serializable {
         this.salt = salt;
     }
 
-    public Long getOrganizationId() {
-        return organizationId;
+    public String getStatus() {
+        return status;
     }
 
-    public void setOrganizationId(Long organizationId) {
-        this.organizationId = organizationId;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

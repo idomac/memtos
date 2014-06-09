@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author : lihaoquan
  */
-public interface UserDao extends CrudRepository<Long,User> {
+public interface UserDao extends CrudRepository<User,Long> {
 
-
+    public User findById(Long id);
 }

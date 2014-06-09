@@ -28,6 +28,11 @@
 
         <hibernate.version>4.2.5.Final</hibernate.version>
         <hibernate-validator.version>4.3.1.Final</hibernate-validator.version>
+
+        <!-- Test -->
+        <junit.version>4.11</junit.version>
+        <mockito.version>1.9.5</mockito.version>
+
     </properties>
 
     <dependencies>
@@ -95,6 +100,7 @@
             <version>${commons-collections.version}</version>
         </dependency>
 
+        <!-- *************安全框架************ -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-core</artifactId>
@@ -158,6 +164,9 @@
             <version>${spring.version}</version>
         </dependency>
 
+
+        <!-- *************Spring 容器************ -->
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
@@ -217,6 +226,29 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
+        </dependency>
+
+
+        <!-- *************单元测试************ -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
