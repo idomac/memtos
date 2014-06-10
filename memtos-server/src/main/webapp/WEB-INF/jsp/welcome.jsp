@@ -12,5 +12,7 @@
 </head>
 <body>
     Hello, Welcome
+
+    <a href="/admin/sys/user/main.do">测试</a>
 </body>
 </html>
