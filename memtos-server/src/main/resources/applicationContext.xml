@@ -59,7 +59,8 @@
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
     <!-- Spring Data Jpa配置 -->
-    <jpa:repositories base-package="com.quanix.memtos"
+    <jpa:repositories base-package="com.quanix.memtos.**.dao"
+                      repository-impl-postfix="Impl"
                       transaction-manager-ref="transactionManager"
                       entity-manager-factory-ref="entityManagerFactory"/>
 

@@ -1,6 +1,7 @@
 package com.quanix.memtos.server.web.controller;
 
 import com.quanix.memtos.server.entity.User;
+import com.quanix.memtos.server.service.UserService;
 import com.quanix.memtos.server.web.controller.base.BaseCRUDController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

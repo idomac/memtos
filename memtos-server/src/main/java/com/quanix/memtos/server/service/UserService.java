@@ -2,6 +2,7 @@ package com.quanix.memtos.server.service;
 
 import com.quanix.memtos.server.dao.UserDao;
 import com.quanix.memtos.server.entity.User;
+import com.quanix.memtos.server.service.base.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,13 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Component
 @Transactional
-public class UserService {
-
-    @Autowired
-    private UserDao userDao;
+public class UserService extends BaseService<User,Long> {
 
 
-    public User findById(Long id) {
-        return userDao.findById(id);
-    }
 }
