@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface UserDao extends BaseRepository<User,Long> {
 
+    public User findByUsername(String username);
 }

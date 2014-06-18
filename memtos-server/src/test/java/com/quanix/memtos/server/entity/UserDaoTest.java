@@ -33,5 +33,8 @@ public class UserDaoTest extends TransactionalTestCase {
 
         System.out.println(user.getLoginname()+"|"+userService.count());
         logger.info("get user success:"+user.getUsername());
+
+        User fu = userService.findByUsername("admin");
+
     }
 }

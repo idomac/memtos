@@ -4,6 +4,7 @@ import com.quanix.memtos.server.entity.base.AbstractEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * @author : lihaoquan
@@ -49,6 +50,11 @@ public class User extends AbstractEntity {
 
     public String getSalt() {
         return salt;
+    }
+
+    @Transient
+    public String getCredentialsSalt() {
+        return username + salt;
     }
 
     public void setSalt(String salt) {
