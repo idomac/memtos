@@ -14,4 +14,5 @@ import java.io.Serializable;
 @NoRepositoryBean
 public interface BaseRepository<M,ID extends Serializable> extends JpaRepository<M,ID> {
 
+    public void printModel(M m);
 }

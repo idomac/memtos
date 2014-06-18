@@ -9,6 +9,11 @@ import java.io.Serializable;
 
 /**
  * created by lihaoquan
+ *
+ * 通过本FactotyBean 创建自定义的 Factory
+ *
+ * @参考 http://docs.spring.io/spring-data/data-jpa/docs/current/reference/html/repositories.html#repositories.custom-implementations
+ *
  */
 public class MyBaseRepositoryFactoryBean<R extends JpaRepository<M, ID>, M, ID extends Serializable>
         extends JpaRepositoryFactoryBean<R, M, ID> {
