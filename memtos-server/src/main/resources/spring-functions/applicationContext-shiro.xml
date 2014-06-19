@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
        default-lazy-init="true">
 
     <description>Shiro安全配置</description>
@@ -12,16 +13,30 @@
     </bean>
 
 
+    <bean id="formAuthenticationFilter" class="com.quanix.memtos.server.web.filter.ServerFormAuthenticationFilter">
+        <property name="usernameParam" value="username"/>
+        <property name="passwordParam" value="password"/>
+    </bean>
+
+
+    <bean id="sysUserFilter" class="com.quanix.memtos.server.web.filter.SysUserFilter"/>
+
     <!-- Shiro Filter -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager" />
         <property name="loginUrl" value="/login" />
         <property name="successUrl" value="/" />
+        <property name="filters">
+            <util:map>
+                <entry key="authc" value-ref="formAuthenticationFilter"/>
+                <entry key="sysUser" value-ref="sysUserFilter"/>
+            </util:map>
+        </property>
         <property name="filterChainDefinitions">
             <value>
                 /login = authc
                 /logout = logout
-                /** = user
+                /** = user,sysUser
             </value>
         </property>
     </bean>
