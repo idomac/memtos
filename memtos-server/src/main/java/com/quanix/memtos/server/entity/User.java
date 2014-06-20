@@ -2,6 +2,7 @@ package com.quanix.memtos.server.entity;
 
 import com.quanix.memtos.server.entity.base.AbstractEntity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -13,24 +14,16 @@ import javax.persistence.Transient;
 @Table(name="s_user")
 public class User extends AbstractEntity {
 
-    private String loginname;
-
     private String username;
+
+    @Column(name = "organization_id")
+    private Long organizationId; //所属公司
 
     private String password;
 
     private String salt;
 
     private String status;
-
-
-    public String getLoginname() {
-        return loginname;
-    }
-
-    public void setLoginname(String loginname) {
-        this.loginname = loginname;
-    }
 
     public String getUsername() {
         return username;
@@ -67,5 +60,13 @@ public class User extends AbstractEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(Long organizationId) {
+        this.organizationId = organizationId;
     }
 }

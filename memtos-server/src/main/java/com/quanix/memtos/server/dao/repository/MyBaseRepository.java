@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
 import javax.persistence.EntityManager;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * created by lihaoquan
@@ -27,6 +28,12 @@ public class MyBaseRepository<M , ID extends Serializable> extends SimpleJpaRepo
 
     public MyBaseRepository(Class<M> domainClass, EntityManager em) {
         super(domainClass, em);
+    }
+
+    @Override
+    public List<M> findAll() {
+        System.out.println("[全部查找]");
+        return super.findAll();
     }
 
     @Override
