@@ -5,6 +5,7 @@ import com.quanix.memtos.server.entity.User;
 import com.quanix.memtos.server.service.ResourceService;
 import com.quanix.memtos.server.service.UserService;
 import com.quanix.memtos.server.web.bind.CurrentUser;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

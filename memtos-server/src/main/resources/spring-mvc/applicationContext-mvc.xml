@@ -49,6 +49,7 @@
     <bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
     </bean>
 
+    <bean class="com.quanix.memtos.server.web.exception.DefaultExceptionHandler"/>
 
     <!-- 引入MVC的扩展配置上下文 -->
     <import resource="applicationContext-mvc-shiro.xml"/>
