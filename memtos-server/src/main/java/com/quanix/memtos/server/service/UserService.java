@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.Set;
+
 /**
  * @author : lihaoquan
  *
@@ -16,6 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserService extends BaseService<User,Long> {
 
+
+    @Autowired
+    private RoleService roleService;
 
     /**
      * 自动装载UserDao
@@ -36,4 +42,12 @@ public class UserService extends BaseService<User,Long> {
         return getUserDao().findByUsername(username);
     }
 
+
+    public Set<String> findPermissions(String username){
+        User user =  getUserDao().findByUsername(username);
+        if(user == null) {
+            return Collections.EMPTY_SET;
+        }
+        return roleService.findPermissions(user.getRoleIdsList().toArray(new Long[0]));
+    }
 }

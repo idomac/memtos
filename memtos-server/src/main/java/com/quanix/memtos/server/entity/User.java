@@ -6,6 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author : lihaoquan
@@ -24,6 +27,8 @@ public class User extends AbstractEntity {
     private String salt;
 
     private String status;
+
+    private String roleIds;
 
     public String getUsername() {
         return username;
@@ -68,5 +73,30 @@ public class User extends AbstractEntity {
 
     public void setOrganizationId(Long organizationId) {
         this.organizationId = organizationId;
+    }
+
+    public String getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(String roleIds) {
+        this.roleIds = roleIds;
+    }
+
+    /**
+     * 把roleid字符串转换为列表
+     * @return
+     */
+    @Transient
+    public List<Long> getRoleIdsList() {
+        List<Long> ids = new ArrayList<Long>();
+        if(null!= roleIds && !"".equals(roleIds)) {
+            for(String s : roleIds.split(",")) {
+                if(!"".equals(s)) {
+                    ids.add(Long.parseLong(s));
+                }
+            }
+        }
+        return ids;
     }
 }
