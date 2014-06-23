@@ -14,15 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * created by lihaoquan
  */
 @Controller
-@RequestMapping(value = "/admin/sys/user")
+@RequestMapping(value = "/user")
 public class UserController extends BaseCRUDController<User,Long> {
 
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @RequestMapping(value = "main", method = RequestMethod.GET)
-    public String main(Model model) {
-        logger.info("进入用户管理页面");
-        return viewName("main");
-    }
 
 }

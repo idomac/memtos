@@ -15,6 +15,9 @@ import java.io.Serializable;
  * created by lihaoquan
  *
  * web 控制器基类
+ *
+ * 主要是封装页面定向的出来
+ *
  */
 public abstract class BaseController<M extends AbstractEntity, ID extends Serializable> {
 
