@@ -14,14 +14,11 @@ import java.util.List;
 /**
  * created by lihaoquan
  */
-@Repository
+@Repository(value = "authorizationDao")
 public class AuthorizationDaoImpl implements AuthorizationDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    private AuthorizationDao authorizationDao;
 
     @Autowired
     private UserService userService;
@@ -53,8 +50,8 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
     @Override
     public List<Authorization> findAll() {
         final String sql = "select id,user_id,app_id,role_ids as roleIdsStr from s_user_app_roles";
-        //return jdbcTemplate.query(sql,new BeanPropertyRowMapper(Authorization.class));
-        return null;
+        return jdbcTemplate.query(sql,new BeanPropertyRowMapper(Authorization.class));
+        //return null;
     }
 
     @Override

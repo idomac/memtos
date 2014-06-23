@@ -21,7 +21,7 @@ public class AuthorizationServiceTest extends TransactionalTestCase {
     public void testFind() {
         List<Authorization> authorizations = authorizationService.findAll();
         for(Authorization authorization : authorizations) {
-            //System.out.println(authorization.getUserId());
+            System.out.println(authorization.getUserId());
         }
     }
 }
