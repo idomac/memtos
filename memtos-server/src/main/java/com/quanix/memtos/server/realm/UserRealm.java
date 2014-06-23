@@ -1,7 +1,9 @@
 package com.quanix.memtos.server.realm;
 
 import com.quanix.memtos.server.entity.User;
+import com.quanix.memtos.server.service.AuthorizationService;
 import com.quanix.memtos.server.service.UserService;
+import com.quanix.memtos.server.util.Constants;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -20,10 +22,15 @@ public class UserRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AuthorizationService authorizationService;
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String username = (String)principals.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        authorizationInfo.setRoles(authorizationService.findRoles(Constants.SERVER_APP_KEY, username));
+        authorizationInfo.setStringPermissions(authorizationService.findPermissions(Constants.SERVER_APP_KEY, username));
         return authorizationInfo;
     }
 

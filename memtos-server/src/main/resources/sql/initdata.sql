@@ -39,3 +39,13 @@ insert into s_resource values(45, '角色查看', 'button', '', 41, '0/1/41/', '
 insert into s_resource values(51, '会话管理', 'menu', '/sessions', 1, '0/1/', 'session:*', true);
 
 insert into s_role values(1, 'admin', '超级管理员', '11,21,31,41,51', true);
+
+
+insert into s_user_app_roles values(1, 1, 1, '1');
+insert into s_user_app_roles values(2, 1, 2, '1,2');
+insert into s_user_app_roles values(3, 1, 3, '1,3');
+
+insert into s_app values(1, 'CENTER-SERVER', '645ba616-370a-43a8-a8e0-993e7a590cf0', 'bb74abb6-bae0-47dd-a7b1-9571ea3a0f33', NULL);
+insert into s_app values(2, 'APP-1', '645ba612-370a-43a8-a8e0-993e7a590cf0', 'bb74abb2-bae0-47dd-a7b1-9571ea3a0f33', NULL);
+insert into s_app values(3, 'APP-2', '645ba613-370a-43a8-a8e0-993e7a590cf0', 'bb74abb3-bae0-47dd-a7b1-9571ea3a0f33', NULL);
+

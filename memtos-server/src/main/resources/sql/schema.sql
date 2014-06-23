@@ -62,3 +62,24 @@ create table s_role (
   constraint pk_s_role primary key(id)
 ) charset=utf8 ENGINE=InnoDB;
 create index idx_sys_role_resource_ids on s_role(resource_ids);
+
+
+create table s_app (
+  id bigint auto_increment,
+  name varchar(100),
+  app_key varchar(100),
+  app_secret varchar(100),
+  available bool default false,
+  constraint pk_s_app primary key(id)
+) charset=utf8 ENGINE=InnoDB;
+create unique index idx_s_app_app_key on s_app(app_key);
+
+
+create table s_user_app_roles (
+  id bigint auto_increment,
+  user_id bigint,
+  app_id bigint,
+  role_ids varchar(100),
+  constraint pk_s_user_app_roles primary key(id)
+) charset=utf8 ENGINE=InnoDB;
+create unique index s_user_app_roles_user_id_app_id on s_user_app_roles(user_id, app_id);

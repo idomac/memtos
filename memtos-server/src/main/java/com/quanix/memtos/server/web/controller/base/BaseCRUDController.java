@@ -1,8 +1,10 @@
 package com.quanix.memtos.server.web.controller.base;
 
+import com.quanix.memtos.server.dao.UserDao;
 import com.quanix.memtos.server.entity.base.AbstractEntity;
 import com.quanix.memtos.server.service.base.BaseService;
 import com.quanix.memtos.server.web.permission.PermissionList;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +55,7 @@ public abstract class BaseCRUDController<M extends AbstractEntity,ID extends Ser
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model) {
         logger.info("模型列表操作");
-        model.addAttribute(getViewPrefix()+"List", baseService.findAll());
+        model.addAttribute("dataList", baseService.findAll());
         return viewName("list");
     }
 
