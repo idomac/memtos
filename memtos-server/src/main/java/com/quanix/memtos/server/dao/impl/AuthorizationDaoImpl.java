@@ -7,8 +7,13 @@ import com.quanix.memtos.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -20,42 +25,74 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private RoleService roleService;
-
-
+    /**
+     * 创建授权信息
+     * @param authorization
+     * @return
+     */
     @Override
-    public Authorization createAuthorization(Authorization authorization) {
-        return null;
+    public Authorization createAuthorization(final Authorization authorization) {
+
+        final String sql = "insert into sys_user_app_roles(user_id, app_id, role_ids) values(?,?,?)";
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement psst = connection.prepareStatement(sql, new String[]{"id"});
+                int count = 1;
+                psst.setLong(count++, authorization.getUserId());
+                psst.setLong(count++, authorization.getAppId());
+                psst.setString(count++, authorization.getRoleIdsStr());
+                return psst;
+            }
+        }, keyHolder);
+        authorization.setId(keyHolder.getKey().longValue());
+        return authorization;
     }
 
+    /**更新授权信息
+     * @param authorization
+     * @return
+     */
     @Override
     public Authorization updateAuthorization(Authorization authorization) {
-        return null;
+        final String sql = "update s_user_app_roles set user_id=?, app_id=?, role_ids=? where id=?";
+        jdbcTemplate.update(
+                sql,
+                authorization.getUserId(), authorization.getAppId(), authorization.getRoleIdsStr(), authorization.getId());
+        return authorization;
     }
+
 
     @Override
     public void deleteAuthorization(Long authorizationId) {
-
+        final String sql = "delete from s_user_app_roles where id=?";
+        jdbcTemplate.update(sql, authorizationId);
     }
 
     @Override
     public Authorization findOne(Long authorizationId) {
-        return null;
+        final String sql = "select id, user_id, app_id, role_ids as roleIdsStr from s_user_app_roles where id=?";
+        List<Authorization> authorizationList = jdbcTemplate.query(sql, new BeanPropertyRowMapper<Authorization>(Authorization.class), authorizationId);
+        if(authorizationList.size() == 0) {
+            return null;
+        }
+        return authorizationList.get(0);
     }
 
     @Override
     public List<Authorization> findAll() {
         final String sql = "select id,user_id,app_id,role_ids as roleIdsStr from s_user_app_roles";
         return jdbcTemplate.query(sql,new BeanPropertyRowMapper(Authorization.class));
-        //return null;
     }
 
     @Override
     public Authorization findByAppUser(Long appId, Long userId) {
-        return null;
+        final String sql = "select id, user_id, app_id, role_ids as roleIdsStr from s_user_app_roles where app_id=? and user_id=?";
+        List<Authorization> authorizationList = jdbcTemplate.query(sql, new BeanPropertyRowMapper<Authorization>(Authorization.class), appId, userId);
+        if(authorizationList.size() == 0) {
+            return null;
+        }
+        return authorizationList.get(0);
     }
 }

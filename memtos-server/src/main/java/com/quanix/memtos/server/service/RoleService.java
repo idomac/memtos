@@ -35,7 +35,7 @@ public class RoleService extends BaseService<Role,Long> {
      * @param roleIds
      * @return
      */
-    Set<String> findRoles(Long... roleIds) {
+    public Set<String> findRoles(Long... roleIds) {
         Set<String> roles = new HashSet<String>();
         for(Long roleId : roleIds) {
             Role role = findOne(roleId);

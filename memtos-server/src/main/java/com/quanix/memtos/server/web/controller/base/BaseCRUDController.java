@@ -3,6 +3,7 @@ package com.quanix.memtos.server.web.controller.base;
 import com.quanix.memtos.server.dao.UserDao;
 import com.quanix.memtos.server.entity.base.AbstractEntity;
 import com.quanix.memtos.server.service.base.BaseService;
+import com.quanix.memtos.server.util.Constants;
 import com.quanix.memtos.server.web.permission.PermissionList;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -51,12 +52,41 @@ public abstract class BaseCRUDController<M extends AbstractEntity,ID extends Ser
         }
     }
 
-
+    /**
+     * 列表
+     * @param model
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model) {
-        logger.info("模型列表操作");
+        logger.info("模型列表操作:"+entityClass.getSimpleName());
         model.addAttribute("dataList", baseService.findAll());
         return viewName("list");
     }
 
+
+    /**
+     * 进入新增页面
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "create", method = RequestMethod.GET)
+    public String showCreateForm(Model model) {
+        logger.info("新增操作:"+entityClass.getSimpleName());
+        model.addAttribute(Constants.OP_NAME, "新增");
+        if (!model.containsAttribute("m")) {
+            model.addAttribute("m", newModel());
+        }
+        return viewName("edit");
+    }
+
+    /**
+     * 在新增页面进行提交操作
+     * @return
+     */
+    @RequestMapping(value = "create", method = RequestMethod.POST)
+    public String create() {
+        logger.info("新增保存操作"+entityClass.getSimpleName());
+        return redirectToUrl(null);
+    }
 }
