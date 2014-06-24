@@ -18,8 +18,8 @@
         </c:forEach>
     </div>
 
-    <script src="${pageContext.request.contextPath}/static/js/jquery-1.11.0.min.js"></script>
-    <script src="${pageContext.request.contextPath}/static/js/jquery.layout-latest.min.js"></script>
+    <script src="${pageContext.request.contextPath}/WEB-INF/static/js/jquery-1.11.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/WEB-INF/static/js/jquery.layout-latest.min.js"></script>
     <script>
         $(function () {
             $(document).ready(function () {

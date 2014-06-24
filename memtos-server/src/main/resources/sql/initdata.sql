@@ -3,6 +3,8 @@ delete from s_user;
 delete from s_role;
 delete from s_resource;
 delete from s_organization;
+delete from s_app;
+delete from s_user_app_roles;
 
 insert into s_user values(1,1,'admin','d3c59d25033dbf980d29554025c23a75','8d78869f470951332959580424d4bf4f','','1', false);
 insert into s_organization values(1, '总公司', 0, '0/', true);

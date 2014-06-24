@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="memfn" uri="http://github.com/idomac/tags/memtos-functions" %>
 <html>
 <head>
     <title></title>
@@ -33,6 +34,13 @@
             </div>
         </c:if>
 
+        <div class="form-group">
+            <form:label path="organizationId">所属组织：</form:label>
+            <form:hidden path="organizationId"/>
+            <input type="text" id="organizationName" name="organizationName" value="${memfn:organizationName(user.organizationId)}" readonly>
+            <a id="menuBtn" href="#">选择</a>
+        </div>
+
         <form:button>${op}</form:button>
 
     </form:form>
@@ -42,7 +50,7 @@
         <ul id="tree" class="ztree" style="margin-top:0; width:160px;"></ul>
     </div>
 
-    <script src="${pageContext.request.contextPath}/static/js/jquery-1.11.0.min.js"></script>
-    <script src="${pageContext.request.contextPath}/static/JQuery zTree v3.5.15/js/jquery.ztree.all-3.5.min.js"></script>
+    <script src="${pageContext.request.contextPath}/WEB-INF/static/js/jquery-1.11.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/WEB-INF/static/JQuery zTree v3.5.15/js/jquery.ztree.all-3.5.min.js"></script>
 </body>
 </html>

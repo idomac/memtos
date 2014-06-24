@@ -1,6 +1,10 @@
 package com.quanix.memtos.server.web.permission;
 
 import com.google.common.collect.Maps;
+import com.quanix.memtos.server.util.MessageUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -45,6 +49,41 @@ public class PermissionList implements Serializable {
         permissionList.resourcePermissions.put(VIEW_PERMISSION, resourceIdentity + ":" + VIEW_PERMISSION);
 
         return permissionList;
+    }
+
+    public void assertHasCreatePermission() {
+        assertHasPermission(CREATE_PERMISSION, "no.create.permission");
+    }
+
+    public void assertHasUpdatePermission() {
+        assertHasPermission(UPDATE_PERMISSION, "no.update.permission");
+    }
+
+    public void assertHasDeletePermission() {
+        assertHasPermission(DELETE_PERMISSION, "no.delete.permission");
+    }
+
+
+    public void assertHasViewPermission() {
+        assertHasPermission(VIEW_PERMISSION, "no.view.permission");
+    }
+
+
+    public void assertHasPermission(String permission, String errorCode) {
+        if (StringUtils.isEmpty(errorCode)) {
+            errorCode = getDefaultErrorCode();
+        }
+        String resourcePermission = resourcePermissions.get(permission);
+        if (resourcePermission == null) {
+            resourcePermission = this.resourceIdentity + ":" + permission;
+        }
+        if (!SecurityUtils.getSubject().isPermitted(resourcePermission)) {
+            throw new UnauthorizedException(MessageUtils.message(errorCode, resourcePermission));
+        }
+    }
+
+    private String getDefaultErrorCode() {
+        return "no.permission";
     }
 
 }

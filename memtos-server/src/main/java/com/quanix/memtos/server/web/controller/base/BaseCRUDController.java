@@ -11,9 +11,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.io.Serializable;
 
 /**
@@ -72,8 +76,16 @@ public abstract class BaseCRUDController<M extends AbstractEntity,ID extends Ser
      */
     @RequestMapping(value = "create", method = RequestMethod.GET)
     public String showCreateForm(Model model) {
+
+        //判断是否有创建的权限
+        if (permissionList != null) {
+            this.permissionList.assertHasCreatePermission();
+        }
+
         logger.info("新增操作:"+entityClass.getSimpleName());
+        setCommonData(model);
         model.addAttribute(Constants.OP_NAME, "新增");
+
         if (!model.containsAttribute("m")) {
             model.addAttribute("m", newModel());
         }
@@ -85,8 +97,18 @@ public abstract class BaseCRUDController<M extends AbstractEntity,ID extends Ser
      * @return
      */
     @RequestMapping(value = "create", method = RequestMethod.POST)
-    public String create() {
+    public String create( Model model, @Valid @ModelAttribute("m") M m, BindingResult result,
+         RedirectAttributes redirectAttributes) {
         logger.info("新增保存操作"+entityClass.getSimpleName());
+
+        if (permissionList != null) {
+            this.permissionList.assertHasCreatePermission();
+        }
+        if (hasError(m, result)) {
+            return showCreateForm(model);
+        }
+        baseService.save(m);
+        redirectAttributes.addFlashAttribute(Constants.MESSAGE, "新增成功");
         return redirectToUrl(null);
     }
 }

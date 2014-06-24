@@ -18,7 +18,10 @@ public class ReflectUtils {
      * @return
      */
     public static <T> Class<T> findParameterizedType(Class<?> clazz, int index) {
+
+        //返回本类的父类,包含泛型参数信息 : ClassA<T>
         Type parameterizedType = clazz.getGenericSuperclass();
+
         if (!(parameterizedType instanceof ParameterizedType)) {
             parameterizedType = clazz.getSuperclass().getGenericSuperclass();
         }
@@ -27,11 +30,13 @@ public class ReflectUtils {
             return null;
         }
 
+        //获取泛型参数类型数组
         Type[] actualTypeArguments = ((ParameterizedType) parameterizedType).getActualTypeArguments();
 
         if (actualTypeArguments == null || actualTypeArguments.length == 0) {
             return null;
         }
+        //按照本项目的风格,domain排在第0个 , 如 UserDao<User,Long>
         return (Class<T>) actualTypeArguments[index];
     }
 }

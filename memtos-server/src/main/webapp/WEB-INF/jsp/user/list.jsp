@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="memfn" uri="http://github.com/idomac/tags/memtos-functions" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <html>
 <head>
@@ -28,7 +29,7 @@
         <c:forEach items="${dataList}" var="user">
             <tr>
                 <td>${user.username}</td>
-                <td>XXXXXXXXXXXXXXXXXXXXXX</td>
+                <td>${memfn:organizationName(user.organizationId)}</td>
                 <td>
                     <shiro:hasPermission name="user:update">
                         <a href="${pageContext.request.contextPath}/user/${user.id}/update">修改</a>
@@ -39,7 +40,7 @@
                     </shiro:hasPermission>
 
                     <shiro:hasPermission name="user:update">
-                        <a href="${pageContext.request.contextPath}/user/${user.id}/changePassword">改密</a>
+                        <a href="${pageContext.request.contextPath}/user/${user.id}/changePassword">修改密码</a>
                     </shiro:hasPermission>
                 </td>
             </tr>
