@@ -19,5 +19,5 @@ public interface RemoteServiceInterface {
 
     public void deleteSession(String appKey, Session session);
 
-    public PermissionContext getPermissions(String appKey,String usernamess);
+    public PermissionContext getPermissions(String appKey,String username);
 }

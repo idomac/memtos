@@ -2,6 +2,7 @@ package com.quanix.memtos.server.remote;
 
 import com.quanix.memtos.core.remote.PermissionContext;
 import com.quanix.memtos.core.remote.RemoteServiceInterface;
+import com.quanix.memtos.server.service.AuthorizationService;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class RemoteService implements RemoteServiceInterface {
 
     @Autowired
     private SessionDAO sessionDAO;
+
+    @Autowired
+    private AuthorizationService authorizationService;
 
     @Override
     public Session getSession(String appKey, Serializable sessionId) {
@@ -36,11 +40,17 @@ public class RemoteService implements RemoteServiceInterface {
         sessionDAO.delete(session);
     }
 
+    /**
+     * 远程获取权限信息
+     * @param appKey
+     * @param username
+     * @return
+     */
     @Override
     public PermissionContext getPermissions(String appKey, String username) {
         PermissionContext permissionContext = new PermissionContext();
-        permissionContext.setPermissions(null);
-        permissionContext.setRoles(null);
+        permissionContext.setPermissions(authorizationService.findPermissions(appKey,username));
+        permissionContext.setRoles(authorizationService.findRoles(appKey,username));
         return permissionContext;
     }
 }

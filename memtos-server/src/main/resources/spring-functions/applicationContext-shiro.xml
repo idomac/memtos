@@ -12,7 +12,7 @@
         <property name="sessionManager" ref="sessionManager"/>
     </bean>
 
-
+    <!-- 拥有表单提交的相关过滤, 在这里统一username和password的参数名称 -->
     <bean id="formAuthenticationFilter" class="com.quanix.memtos.server.web.filter.ServerFormAuthenticationFilter">
         <property name="usernameParam" value="username"/>
         <property name="passwordParam" value="password"/>
@@ -34,8 +34,10 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
+                /remoteService = anon
                 /login = authc
                 /logout = logout
+                /authenticated = authc
                 /** = user,sysUser
             </value>
         </property>

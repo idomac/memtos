@@ -11,6 +11,7 @@
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <!-- 属性配置文件 -->
     <context:property-placeholder location="classpath:spring-config/applicationContext.properties"/>
 
 
@@ -23,6 +24,7 @@
                                 expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
 
+    <!-- 用途是在controller的方法参数中,可以使用自定义的注解对象,通过相关bean可以获取业务需要 -->
     <mvc:annotation-driven>
         <mvc:argument-resolvers>
             <bean class="com.quanix.memtos.server.web.bind.CurrentUserMethodArgumentResolver"/>

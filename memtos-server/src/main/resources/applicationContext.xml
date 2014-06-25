@@ -29,6 +29,9 @@
 
 
     <!-- 还可以通过TransactionAwareDataSourceProxy对数据源进行代理，数据源对象被代理后就具有了事务上下文感知的能力：-->
+    <!--如果不得已要显式获取数据连接，除了使用 DataSourceUtils 获取事务上下文绑定的连接外，还可以通过 TransactionAwareDataSourceProxy 对数据源进行代理。
+        数据源对象被代理后就具有了事务上下文感知的能力，
+        通过代理数据源的 getConnection() 方法获取的连接和使用 DataSourceUtils.getConnection() 获取连接的效果是一样的。-->
     <bean id="dataSourceProxy" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
         <property name="targetDataSource" ref="dataSource"/>
     </bean>
