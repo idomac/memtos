@@ -59,6 +59,12 @@ public abstract class BaseService<M extends AbstractEntity,ID extends Serializab
         baseRepository.delete(id);
     }
 
+    public void delete(ID[] ids) {
+        for(ID id : ids) {
+            delete(id);
+        }
+    }
+
     public void printModel(M m) {
         baseRepository.printModel(m);
     }

@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -110,5 +108,125 @@ public abstract class BaseCRUDController<M extends AbstractEntity,ID extends Ser
         baseService.save(m);
         redirectAttributes.addFlashAttribute(Constants.MESSAGE, "新增成功");
         return redirectToUrl(null);
+    }
+
+
+    /**
+     * 查看浏览
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String view(Model model,@PathVariable("id") ID id) {
+
+        if (permissionList != null) {
+            this.permissionList.assertHasViewPermission();
+        }
+        M m =  baseService.findOne(id);
+        model.addAttribute("m", m);
+        model.addAttribute(Constants.OP_NAME, "查看");
+        return viewName("edit");
+    }
+
+
+    @RequestMapping(value = "{id}/update", method = RequestMethod.GET)
+    public String showUpdateForm(@PathVariable("id") ID id, Model model) {
+        if (permissionList != null) {
+            this.permissionList.assertHasUpdatePermission();
+        }
+        M m =  baseService.findOne(id);
+        model.addAttribute(Constants.OP_NAME, "修改");
+        model.addAttribute("m", m);
+        return viewName("edit");
+    }
+
+
+    /**
+     * 更新操作
+     * @param model
+     * @param m
+     * @param result
+     * @param backURL
+     * @param redirectAttributes
+     * @return
+     */
+    @RequestMapping(value = "{id}/update", method = RequestMethod.POST)
+    public String update(Model model,@Valid @ModelAttribute("m") M m,BindingResult result,
+        @RequestParam(value = Constants.BACK_URL, required = false) String backURL,@PathVariable("id") ID id,
+        RedirectAttributes redirectAttributes) {
+
+        if (permissionList != null) {
+            this.permissionList.assertHasUpdatePermission();
+        }
+
+        if (hasError(m, result)) {
+            return showUpdateForm(id,model);
+        }
+        baseService.save(m);
+        redirectAttributes.addFlashAttribute(Constants.MESSAGE, "修改成功");
+        return redirectToUrl(backURL);
+    }
+
+    /**
+     * 删除表单页面
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "{id}/delete", method = RequestMethod.GET)
+    public String showDeleteForm(@PathVariable("id") ID id,Model model) {
+        if (permissionList != null) {
+            this.permissionList.assertHasDeletePermission();
+        }
+        model.addAttribute(Constants.OP_NAME, "删除");
+        M m =  baseService.findOne(id);
+        model.addAttribute("m", m);
+        return viewName("edit");
+    }
+
+
+    /**
+     * 提交删除操作
+     * @param model
+     * @param m
+     * @param result
+     * @param backURL
+     * @param id
+     * @param redirectAttributes
+     * @return
+     */
+    @RequestMapping(value = "{id}/delete", method = RequestMethod.POST)
+    public String delete(Model model,@Valid @ModelAttribute("m") M m,BindingResult result,
+     @RequestParam(value = Constants.BACK_URL, required = false) String backURL,@PathVariable("id") ID id,
+     RedirectAttributes redirectAttributes) {
+
+        if (permissionList != null) {
+            this.permissionList.assertHasDeletePermission();
+        }
+        baseService.delete(id);
+        redirectAttributes.addFlashAttribute(Constants.MESSAGE, "删除成功");
+        return redirectToUrl(backURL);
+    }
+
+
+    /**
+     * 批量删除操作
+     * @param ids
+     * @param backURL
+     * @param redirectAttributes
+     * @return
+     */
+    @RequestMapping(value = "batch/delete", method = {RequestMethod.GET, RequestMethod.POST})
+    public String deleteInBatch(
+            @RequestParam(value = "ids", required = false) ID[] ids,
+            @RequestParam(value = Constants.BACK_URL, required = false) String backURL,
+            RedirectAttributes redirectAttributes) {
+
+        if (permissionList != null) {
+            this.permissionList.assertHasDeletePermission();
+        }
+        baseService.delete(ids);
+        redirectAttributes.addFlashAttribute(Constants.MESSAGE, "删除成功");
+        return redirectToUrl(backURL);
     }
 }
