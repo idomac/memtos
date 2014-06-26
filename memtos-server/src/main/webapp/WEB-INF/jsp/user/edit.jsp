@@ -14,7 +14,7 @@
 </head>
 <body>
 
-    <form:form method="post" commandName="user">
+    <form:form method="post" commandName="m">
         <form:hidden path="id"/>
         <form:hidden path="salt"/>
 
