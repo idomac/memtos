@@ -137,6 +137,7 @@ public abstract class BaseCRUDController<M extends AbstractEntity,ID extends Ser
         M m =  baseService.findOne(id);
         model.addAttribute(Constants.OP_NAME, "修改");
         model.addAttribute("m", m);
+        setCommonData(model);
         return viewName("edit");
     }
 
@@ -181,6 +182,7 @@ public abstract class BaseCRUDController<M extends AbstractEntity,ID extends Ser
         model.addAttribute(Constants.OP_NAME, "删除");
         M m =  baseService.findOne(id);
         model.addAttribute("m", m);
+        setCommonData(model);
         return viewName("edit");
     }
 

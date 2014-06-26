@@ -36,9 +36,11 @@
 
         <div class="form-group">
             <form:label path="organizationId">所属组织：</form:label>
-            <form:hidden path="organizationId"/>
-            <input type="text" id="organizationName" name="organizationName" value="${memfn:organizationName(user.organizationId)}" readonly>
-            <a id="menuBtn" href="#">选择</a>
+            <form:select path="organizationId" id="organizationId">
+                <c:forEach items="${organizationList}" var="o">
+                    <form:option value="${o.id}">${o.name}</form:option>
+                </c:forEach>
+            </form:select>
         </div>
 
         <form:button>${op}</form:button>
