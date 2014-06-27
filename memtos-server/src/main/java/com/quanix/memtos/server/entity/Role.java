@@ -9,7 +9,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "s_role")
-public class Role extends AbstractEntity {
+public class Role extends AbstractEntity<Long> {
 
     private String role; //角色标识 程序中判断使用,如"admin"
     private String description; //角色描述,UI界面显示使用

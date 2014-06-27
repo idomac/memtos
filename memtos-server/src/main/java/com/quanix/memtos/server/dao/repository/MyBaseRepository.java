@@ -1,5 +1,6 @@
 package com.quanix.memtos.server.dao.repository;
 
+import com.quanix.memtos.server.dao.repository.support.RepositoryHelper;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
@@ -21,9 +22,17 @@ import java.util.List;
  */
 public class MyBaseRepository<M , ID extends Serializable> extends SimpleJpaRepository<M, ID> implements BaseRepository<M,ID> {
 
+    /**
+     * 仓库辅助服务
+     */
+    private RepositoryHelper repositoryHelper;
+    private Class<M> entityClass;
 
     public MyBaseRepository(JpaEntityInformation<M, ?> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
+
+        this.entityClass = entityInformation.getJavaType();
+        repositoryHelper = new RepositoryHelper(entityClass);
     }
 
     public MyBaseRepository(Class<M> domainClass, EntityManager em) {
@@ -32,7 +41,6 @@ public class MyBaseRepository<M , ID extends Serializable> extends SimpleJpaRepo
 
     @Override
     public List<M> findAll() {
-        System.out.println("[全部查找]");
         return super.findAll();
     }
 

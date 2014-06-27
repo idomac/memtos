@@ -6,5 +6,7 @@ import org.springframework.stereotype.Controller;
  * created by lihaoquan
  */
 @Controller
-public class OrganizationController {
+public class OrganizationController  {
+
+
 }

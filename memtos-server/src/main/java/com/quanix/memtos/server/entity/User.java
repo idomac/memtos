@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="s_user")
-public class User extends AbstractEntity {
+public class User extends AbstractEntity<Long> {
 
     private String username;
 

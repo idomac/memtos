@@ -10,17 +10,17 @@ import java.io.Serializable;
  * @author : lihaoquan
  */
 @MappedSuperclass
-public class AbstractEntity implements Serializable {
+public abstract class AbstractEntity<ID extends Serializable> implements Serializable {
 
-    protected Long id;
+    protected ID id;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long getId() {
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public ID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(ID id) {
         this.id = id;
     }
 }

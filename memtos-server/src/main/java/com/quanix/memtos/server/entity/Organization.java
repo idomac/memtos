@@ -10,7 +10,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "s_organization")
-public class Organization extends AbstractEntity {
+public class Organization extends AbstractEntity<Long> {
 
     private String name; //组织机构名称
     private Long parentId; //父编号

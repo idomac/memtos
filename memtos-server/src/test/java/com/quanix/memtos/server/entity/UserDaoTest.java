@@ -27,6 +27,9 @@ public class UserDaoTest extends TransactionalTestCase {
     @Test
     public void findById() {
         long id = 1;
+
+        userService.findAll();
+
         User user = userService.findOne(id);
 
         userService.printModel(user);

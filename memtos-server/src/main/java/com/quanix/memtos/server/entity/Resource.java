@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "s_resource")
-public class Resource extends AbstractEntity {
+public class Resource extends AbstractEntity<Long> {
 
     private String name; //资源名称
     private ResourceType type = ResourceType.menu; //资源类型
