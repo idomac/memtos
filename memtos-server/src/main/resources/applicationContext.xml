@@ -99,6 +99,14 @@
         <property name="arguments" ref="entityManagerFactory"/>
     </bean>
 
+    <!-- 类型转换及数据格式化 -->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod"
+                  value="com.quanix.memtos.server.plugin.search.utils.SearchableConvertUtils.setConversionService"/>
+        <property name="arguments" ref="conversionService"/>
+    </bean>
+
     <bean class="com.quanix.memtos.server.util.SpringUtils" />
 
 </beans>
