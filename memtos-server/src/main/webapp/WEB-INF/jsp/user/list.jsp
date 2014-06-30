@@ -2,6 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="memfn" uri="http://github.com/idomac/tags/memtos-functions" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<%@taglib prefix="ex" tagdir="/WEB-INF/tags"%>
 <html>
 <head>
     <title></title>
@@ -47,6 +48,6 @@
         </c:forEach>
     </tbody>
 </table>
-
+<ex:page page="${page}"/>
 </body>
 </html>
