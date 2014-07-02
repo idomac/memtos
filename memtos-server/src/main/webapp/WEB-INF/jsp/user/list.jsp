@@ -6,7 +6,8 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/css.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/WEB-INF/static/css/css.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/WEB-INF/static/js/app.js"></script>
 </head>
 <body>
 
@@ -27,7 +28,7 @@
         </tr>
     </thead>
     <tbody>
-        <c:forEach items="${dataList}" var="user">
+        <c:forEach items="${page.content}" var="user">
             <tr>
                 <td>${user.username}</td>
                 <td>${memfn:organizationName(user.organizationId)}</td>

@@ -3,6 +3,8 @@ package com.quanix.memtos.server.service.base;
 import com.quanix.memtos.server.dao.repository.BaseRepository;
 import com.quanix.memtos.server.entity.base.AbstractEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.io.Serializable;
 import java.util.List;
@@ -43,6 +45,15 @@ public abstract class BaseService<M extends AbstractEntity,ID extends Serializab
 
     public List<M> findAll() {
         return baseRepository.findAll();
+    }
+
+    /**
+     * 分页查找列表
+     * @param pageable
+     * @return
+     */
+    public Page<M> findAll(Pageable pageable) {
+        return baseRepository.findAll(pageable);
     }
 
     public M save(M model) {

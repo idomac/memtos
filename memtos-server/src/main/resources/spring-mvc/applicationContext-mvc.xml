@@ -28,6 +28,8 @@
     <mvc:annotation-driven>
         <mvc:argument-resolvers>
             <bean class="com.quanix.memtos.server.web.bind.CurrentUserMethodArgumentResolver"/>
+            <bean class="com.quanix.memtos.server.web.bind.method.PageableMethodArgumentResolver"/>
+            <bean class="com.quanix.memtos.server.web.bind.method.SearchableMethodArgumentResolver"/>
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
 

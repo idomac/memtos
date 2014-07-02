@@ -1,13 +1,16 @@
 package com.quanix.memtos.server.web.controller;
 
 import com.quanix.memtos.server.entity.User;
+import com.quanix.memtos.server.plugin.search.Searchable;
 import com.quanix.memtos.server.service.OrganizationService;
 import com.quanix.memtos.server.service.UserService;
+import com.quanix.memtos.server.web.bind.PageableDefaults;
 import com.quanix.memtos.server.web.controller.base.BaseCRUDController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,11 +35,15 @@ public class UserController extends BaseCRUDController<User,Long> {
     private OrganizationService organizationService;
 
 
+    public UserController() {
+        setResourceIdentity("user");//如果需要鉴权,则写上这代码
+    }
+
 
     @Override
-    @RequiresPermissions("user:view")
-    public String list(Model model) {
-        return super.list(model);
+    @PageableDefaults
+    public String list(Pageable pageable,Model model) {
+        return super.list(pageable,model);
     }
 
 
