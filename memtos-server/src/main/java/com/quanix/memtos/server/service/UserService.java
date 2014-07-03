@@ -4,6 +4,9 @@ import com.quanix.memtos.server.dao.UserDao;
 import com.quanix.memtos.server.entity.User;
 import com.quanix.memtos.server.helper.PasswordHelper;
 import com.quanix.memtos.server.service.base.BaseService;
+import com.quanix.memtos.server.support.jms.NotifyMessageProducer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,9 @@ import java.util.Set;
 @Transactional
 public class UserService extends BaseService<User,Long> {
 
+    private static Logger logger = LoggerFactory.getLogger(UserService.class);
+
+    private NotifyMessageProducer notifyProducer;
 
     @Autowired
     private RoleService roleService;
@@ -71,6 +77,30 @@ public class UserService extends BaseService<User,Long> {
     @Override
     public User save(User user) {
         passwordHelper.encryptPassword(user);
+        // 发送JMS消息
+        if (notifyProducer != null) {
+            sendNotifyMessage(user);
+        }
         return super.save(user);
+    }
+
+
+    /**
+     * 发送用户变更消息.
+     *
+     * 同时发送只有一个消费者的Queue消息与发布订阅模式有多个消费者的Topic消息.
+     */
+    private void sendNotifyMessage(User user) {
+        try {
+            //notifyProducer.sendQueue(user);
+            notifyProducer.sendTopic(user);
+        } catch (Exception e) {
+            logger.error("消息发送失败", e);
+        }
+    }
+
+    @Autowired(required = false)
+    public void setNotifyProducer(NotifyMessageProducer notifyProducer) {
+        this.notifyProducer = notifyProducer;
     }
 }
