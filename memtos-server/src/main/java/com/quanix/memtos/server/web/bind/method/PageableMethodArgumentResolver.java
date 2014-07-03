@@ -30,6 +30,24 @@ public class PageableMethodArgumentResolver extends BaseMethodArgumentResolver {
     private int maxPageSize = 100;
 
 
+    /**
+     * 设置最小分页大小 默认10
+     *
+     * @param minPageSize
+     */
+    public void setMinPageSize(int minPageSize) {
+        this.minPageSize = minPageSize;
+    }
+
+    /**
+     * 设置最大分页大小 默认100
+     *
+     * @param maxPageSize
+     */
+    public void setMaxPageSize(int maxPageSize) {
+        this.maxPageSize = maxPageSize;
+    }
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return Pageable.class.isAssignableFrom(parameter.getParameterType());
