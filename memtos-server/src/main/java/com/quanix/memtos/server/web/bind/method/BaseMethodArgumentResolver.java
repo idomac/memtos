@@ -17,6 +17,8 @@ import java.util.Map;
  *
  * SpringMVC 3.1 提供了HandlerMethodArgumentResolver以支持更灵活的自定义的数据绑定方式。
  *
+ * 简单参考:https://github.com/spring-projects/spring-framework/blob/master/spring-webmvc/src/main/java/org/springframework/web/servlet/mvc/method/annotation/PathVariableMapMethodArgumentResolver.java
+ *
  */
 public abstract class BaseMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -44,7 +46,15 @@ public abstract class BaseMethodArgumentResolver implements HandlerMethodArgumen
         while (parameterNames.hasNext()) {
             String name = parameterNames.next();
             if (name.startsWith(namePrefix)) {
-
+                if(subPrefix) {
+                    char ch = name.charAt(namePrefix.length());
+                    if(illegalChar(ch)) {
+                        continue;
+                    }
+                    result.put(name.substring(namePrefixLength + 1), request.getParameterValues(name));
+                }
+            }else {
+                result.put(name, request.getParameterValues(name));
             }
         }
         return result;

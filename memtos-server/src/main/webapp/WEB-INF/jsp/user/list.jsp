@@ -7,7 +7,31 @@
 <head>
     <title></title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/WEB-INF/static/css/css.css">
-    <script type="text/javascript" src="${pageContext.request.contextPath}/WEB-INF/static/js/app.js"></script>
+    <script>
+        function turnPage(pageSize,pn,obj) {
+            var pageURL = window.location.href;
+
+            pageURL = removePageParam(pageURL);
+
+            pageURL = pageURL + (pageURL.indexOf("?") == -1 ? "?" : "&");
+
+            pageURL = pageURL + "page.pn=" + pn;
+            if(pageSize) {
+                pageURL = pageURL + "&"  + "page.size=" + pageSize;
+            }
+            window.location.href = pageURL;
+        }
+
+        function removePageParam(pageURL) {
+            pageURL = pageURL.replace(/\&\w*page.pn=\d+/gi, '');
+            pageURL = pageURL.replace(/\?\w*page.pn=\d+\&/gi, '?');
+            pageURL = pageURL.replace(/\?\w*page.pn=\d+/gi, '');
+            pageURL = pageURL.replace(/\&\w*page.size=\d+/gi, '');
+            pageURL = pageURL.replace(/\?\w*page.size=\d+\&/gi, '?');
+            pageURL = pageURL.replace(/\?\w*page.size=\d+/gi, '');
+            return pageURL;
+        }
+    </script>
 </head>
 <body>
 

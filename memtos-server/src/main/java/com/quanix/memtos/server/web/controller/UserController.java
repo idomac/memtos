@@ -41,7 +41,7 @@ public class UserController extends BaseCRUDController<User,Long> {
 
 
     @Override
-    @PageableDefaults
+    @PageableDefaults(value = 2)
     public String list(Pageable pageable,Model model) {
         return super.list(pageable,model);
     }

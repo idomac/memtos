@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
@@ -27,7 +26,7 @@ public class PageableMethodArgumentResolver extends BaseMethodArgumentResolver {
     private Pageable fallbackPagable = DEFAULT_PAGE_REQUEST;
     private String pagePrefix = DEFAULT_PAGE_PREFIX;
     private String sortPrefix = DEFAULT_SORT_PREFIX;
-    private int minPageSize = 5;
+    private int minPageSize = 1;
     private int maxPageSize = 100;
 
 
@@ -40,11 +39,24 @@ public class PageableMethodArgumentResolver extends BaseMethodArgumentResolver {
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
-        PageableDefaults pageableDefaults = getPageableDefaults(parameter);
-        //默认的page request
-        Pageable defaultPageRequest = getDefaultFromAnnotationOrFallback(pageableDefaults);
+        //获取pageableDefaults注解
+        PageableDefaults pageableDefaults = parameter.getParameterAnnotation(PageableDefaults.class);
+
+        if(pageableDefaults == null) {
+            pageableDefaults = parameter.getMethodAnnotation(PageableDefaults.class);
+        }
+
+        //处理目标的返回Pageable对象
+        Pageable defaultPageRequest = fallbackPagable;
+        if(pageableDefaults != null) {
+            int pageNumber = pageableDefaults.pageNumber();//通过注解对象获取数值
+            int pageSize = pageableDefaults.value();//通过注解对象获取数值
+            defaultPageRequest = new PageRequest(pageNumber, pageSize, null);
+        }
         String pageableNamePrefix = getPagePrefix(parameter);
         Map<String, String[]> pageableMap = getPrefixParameterMap(pageableNamePrefix, webRequest, true);
+
+        //如果前台没有想过分页查询参数传入,则直接返回构造的分页对象
         if (pageableMap.size() == 0) {
             return new PageRequest(defaultPageRequest.getPageNumber(), defaultPageRequest.getPageSize(),defaultPageRequest.getSort());
         }
@@ -54,72 +66,13 @@ public class PageableMethodArgumentResolver extends BaseMethodArgumentResolver {
     }
 
 
-    /**
-     * 寻找 @PageableDefaults 对象参数
-     * @param parameter
-     * @return
-     */
-    private PageableDefaults getPageableDefaults(MethodParameter parameter) {
-        //首先从参数上找
-        PageableDefaults pageableDefaults = parameter.getParameterAnnotation(PageableDefaults.class);
-        //找不到从方法上找
-        if (pageableDefaults == null) {
-            pageableDefaults = parameter.getMethodAnnotation(PageableDefaults.class);
-        }
-        return pageableDefaults;
-    }
-
-
-    private Pageable getDefaultFromAnnotationOrFallback(PageableDefaults pageableDefaults) {
-        Pageable defaultPageable = defaultPageable(pageableDefaults);
-        if (defaultPageable != null) {
-            return defaultPageable;
-        }
-        return fallbackPagable;
-    }
-
-    private Pageable defaultPageable(PageableDefaults pageableDefaults) {
-        if (pageableDefaults == null) {
-            return null;
-        }
-        int pageNumber = pageableDefaults.pageNumber();
-        int pageSize = pageableDefaults.value();
-
-        String[] sortStrArray = pageableDefaults.sort();
-        Sort sort = null;
-
-        for (String sortStr : sortStrArray) {
-            String[] sortStrPair = sortStr.split("=");
-            Sort newSort = new Sort(Sort.Direction.fromString(sortStrPair[1]), sortStrPair[0]);
-            if (sort == null) {
-                sort = newSort;
-            } else {
-                sort = sort.and(newSort);
-            }
-        }
-        return new PageRequest(pageNumber, pageSize, sort);
-    }
-
     private String getPagePrefix(MethodParameter parameter) {
 
         Qualifier qualifier = parameter.getParameterAnnotation(Qualifier.class);
-
         if (qualifier != null) {
-            return new StringBuilder(((Qualifier) qualifier).value()).append("_").append(pagePrefix).toString();
+            return new StringBuilder(qualifier.value()).append("_").append(pagePrefix).toString();
         }
-
         return pagePrefix;
-    }
-
-    private String getSortPrefix(MethodParameter parameter) {
-
-        Qualifier qualifier = parameter.getParameterAnnotation(Qualifier.class);
-
-        if (qualifier != null) {
-            return new StringBuilder(qualifier.value()).append("_").append(sortPrefix).toString();
-        }
-
-        return sortPrefix;
     }
 
     private int getPageSize(Map<String, String[]> pageableMap, Pageable defaultPageRequest) {
