@@ -37,7 +37,17 @@ public abstract class BaseMethodArgumentResolver implements HandlerMethodArgumen
         int namePrefixLength = namePrefix.length();
         for (String name : variables.keySet()) {
             if (name.startsWith(namePrefix)) {
-
+                //page.pn  则截取 pn
+                if (subPrefix) {
+                    char ch = name.charAt(namePrefix.length());
+                    //如果下一个字符不是 数字 . _  则不可能是查询 只是前缀类似
+                    if (illegalChar(ch)) {
+                        continue;
+                    }
+                    result.put(name.substring(namePrefixLength + 1), new String[]{variables.get(name)});
+                } else {
+                    result.put(name, new String[]{variables.get(name)});
+                }
             }
         }
 
@@ -46,8 +56,10 @@ public abstract class BaseMethodArgumentResolver implements HandlerMethodArgumen
         while (parameterNames.hasNext()) {
             String name = parameterNames.next();
             if (name.startsWith(namePrefix)) {
+                //page.pn  则截取 pn
                 if(subPrefix) {
                     char ch = name.charAt(namePrefix.length());
+                    //如果下一个字符不是 数字 . _  则不可能是查询 只是前缀类似
                     if(illegalChar(ch)) {
                         continue;
                     }
