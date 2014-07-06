@@ -4,6 +4,7 @@ import com.quanix.memtos.server.entity.base.AbstractEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * created by lihaoquan
@@ -16,6 +17,16 @@ public class Organization extends AbstractEntity<Long> {
     private Long parentId; //父编号
     private String parentIds; //父编号列表，如1/2/
     private Boolean available = Boolean.FALSE;
+
+    @Transient
+    public boolean isRootNode() {
+        return parentId == 0;
+    }
+
+    @Transient
+    public String makeSelfAsParentIds() {
+        return getParentIds() + getId() + "/";
+    }
 
     public String getName() {
         return name;
