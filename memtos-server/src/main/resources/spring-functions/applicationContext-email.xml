@@ -12,7 +12,7 @@
         <property name="textTemplate">
             <value><![CDATA[
 			用戶%s在%tF被创建.
-			System Administrator.
+			From Memtos Demo
 			]]></value>
         </property>
     </bean>

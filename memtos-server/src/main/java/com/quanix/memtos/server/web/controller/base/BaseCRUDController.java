@@ -2,6 +2,7 @@ package com.quanix.memtos.server.web.controller.base;
 
 import com.quanix.memtos.server.dao.UserDao;
 import com.quanix.memtos.server.entity.base.AbstractEntity;
+import com.quanix.memtos.server.plugin.search.Searchable;
 import com.quanix.memtos.server.service.base.BaseService;
 import com.quanix.memtos.server.util.Constants;
 import com.quanix.memtos.server.web.permission.PermissionList;
@@ -9,6 +10,8 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -60,8 +63,15 @@ public abstract class BaseCRUDController<M extends AbstractEntity,ID extends Ser
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String list(Model model) {
+    public String list(Pageable pageable,Model model) {
+
+        if (permissionList != null) {
+            this.permissionList.assertHasViewPermission();
+        }
+
         logger.info("模型列表操作:"+entityClass.getSimpleName());
+
+        model.addAttribute("page",baseService.findAll(pageable));
         model.addAttribute("dataList", baseService.findAll());
         return viewName("list");
     }
