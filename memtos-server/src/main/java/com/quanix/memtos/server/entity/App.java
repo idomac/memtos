@@ -7,6 +7,7 @@ import javax.persistence.Table;
 
 /**
  * created by lihaoquan
+ *
  */
 @Entity
 @Table(name = "s_app")
